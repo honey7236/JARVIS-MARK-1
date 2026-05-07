@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+venv/
+.env
+.vscode/
+node_modules/
+*.log
+dist/
+build/
+temp_audio/
+PyWhatKit_DB.txt

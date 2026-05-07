@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+
+  background: url('assets/JARVIS (1).png') no-repeat center center;
+  background-size: 100% 100%;
+
+  font-family: 'bank gothic';
+  color: cyan;
+  overflow: hidden;
+}
+
+/* Base panel */
+.panel {
+  position: absolute;
+  padding: 0px;
+  /* border: 1px solid red ; */
+  font-size: 9px;
+}
+
+/* Position panels according to your image */
+.network {
+    height: 9%;
+    width: 21.5%;
+  top: 7%;
+  left: 10.8%;
+}
+
+.news {
+  top: 26.5%;
+  left: 11.6%;
+  height: 40%;
+  width: 13%;
+}
+
+.weather {
+  top: 8.5%;
+  right: 3%;
+  height: 19%;
+  width: 22%;
+}
+
+.system {
+  top: 40%;
+  right: 3.5%;
+  height: 18%;
+  width: 22%;
+}
+
+#sphere {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  width: 35vw;
+  height: 35vw;
+
+  /* min-width: 200px;
+  min-height: 200px; */
+
+  max-width: 350px;
+  max-height: 350px;
+  
+  pointer-events: none;
+}
+
