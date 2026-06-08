@@ -30,3 +30,38 @@ def get_system_stats():
         print("System Stats Error:", e)
         return "Unable to fetch system stats"
     
+
+def display_system_info():
+    try:
+        # CPU usage
+        cpu = psutil.cpu_percent(interval=None)
+
+        # RAM usage
+        memory = psutil.virtual_memory()
+        ram_percent = memory.percent
+        total_ram = round(memory.total / (1024 ** 3), 2)  # GB
+        used_ram = round(memory.used / (1024 ** 3), 2)
+
+        # Disk usage
+        disk = psutil.disk_usage('/')
+        disk_percent = disk.percent
+        total_disk = round(disk.total / (1024 ** 3), 2)
+        free_disk = round(disk.free / (1024 ** 3), 2)
+
+        return {
+            "cpu": f"{cpu}%",
+            "ram_percent": f"{ram_percent}%",
+            "ram_details": f"{used_ram}/{total_ram} GB",
+            "disk_percent": f"{disk_percent}%",
+            "disk_details": f"{free_disk} GB Free"
+        }
+    except Exception as e:
+        print("System Info Error:", e)
+        return {
+            "cpu": "N/A",
+            "ram_percent": "N/A",
+            "ram_details": "N/A",
+            "disk_percent": "N/A",
+            "disk_details": "N/A"
+        }
+    

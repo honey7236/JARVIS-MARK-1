@@ -3,19 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <title>JARVIS UI</title>
+  <link rel="icon" type="image/jpeg" href="assets/jarivs%20logo.jpg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Background UI already handled by CSS -->
+  <!-- Background Video -->
+  <video id="bg-video" autoplay muted playsinline>
+    <source src="https://res.cloudinary.com/dcdcnubib/video/upload/v1780258767/J.A.R.V.I.S._UI_thujym.mp4" type="video/mp4">
+  </video>
 
-  <!-- Panels -->
-  <div class="panel network">NETWORK lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</div>
-  <div class="panel news">NEWS</div>
-  <div class="panel weather">WEATHER</div>
-  <div class="panel system">SYSTEM INFO</div>
-  <canvas id="sphere"></canvas>
+  <!-- Dashboard Container -->
+  <div id="dashboard" class="dashboard-hidden">
+    <!-- Panels -->
+    <div id="network" class="panel network">NETWORK: Loading...</div>
+    <div id="news" class="panel news">NEWS: Loading...</div>
+    <div id="weather" class="panel weather">WEATHER: Loading...</div>
+    <div id="system" class="panel system">SYSTEM INFO: Loading...</div>
+    <div id="user-input" class="user-input panel">USER INPUT:</div>
+    <div id="jarvis-output" class="jarvis-output panel">JARVIS:</div>
+    <canvas id="sphere"></canvas>
+    
+    <!-- Floating Menu/Options Container -->
+    <div class="menu-container">
+      <button id="menu-toggle" class="menu-toggle-btn" onclick="toggleMenu(event)">
+        <span class="btn-text">OPTIONS</span>
+      </button>
+      <div id="menu-dropdown" class="menu-dropdown-hidden">
+        <div class="menu-item" onclick="triggerMenuAction('contacts', event)">CONTACTS</div>
+      </div>
+    </div>
 
+    <!-- Contacts Panel -->
+    <div id="contacts-panel" class="contacts-panel-hidden">
+      <div class="contacts-header">
+        <div class="contacts-title">CONTACTS DATABASE</div>
+        <button class="contacts-close-btn" onclick="toggleContactsPanel()">&times;</button>
+      </div>
+      
+      <!-- Search Box -->
+      <div class="contacts-search-container">
+        <input type="text" id="contacts-search" placeholder="SEARCH CONTACTS..." oninput="filterContacts()">
+      </div>
+      
+      <!-- Contacts List -->
+      <div id="contacts-list" class="contacts-list-container">
+        <!-- Rendered dynamically -->
+      </div>
+      
+      <!-- Add / Edit Form -->
+      <div class="contacts-form-container">
+        <div class="form-title" id="form-action-title">ADD NEW CONTACT</div>
+        <div id="contacts-status" class="contacts-status-msg"></div>
+        <form id="contact-form" onsubmit="saveContactEvent(event)">
+          <input type="hidden" id="edit-original-name">
+          <div class="input-group">
+            <label for="contact-name">NAME</label>
+            <input type="text" id="contact-name" required placeholder="NAME..." autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label for="contact-phone">PHONE NUMBER</label>
+            <input type="text" id="contact-phone" required placeholder="+91..." autocomplete="off">
+          </div>
+          <div class="form-buttons">
+            <button type="submit" class="form-btn save-btn">SAVE</button>
+            <button type="button" id="form-cancel-btn" class="form-btn cancel-btn" onclick="clearContactForm()">CLEAR</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/eel.js"></script>
   <script src="script.js"></script>
   <script src="particle.js"></script>
 </body>

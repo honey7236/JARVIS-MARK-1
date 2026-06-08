@@ -19,7 +19,6 @@ from automation.weather import get_weather
 from automation.whatsapp_automation import send_whatsapp_instant
 from Brain.AI_Brain import ai_response
 from automation.screenshot import take_screenshot
-from automation.datetimegreet import get_date_time
 
 
 def processcomand(c):
@@ -100,11 +99,10 @@ def processcomand(c):
         # speak(stats)
         return stats
 
-    elif "take screenshot" in command_text:
+    elif "take a screenshot" in command_text:
         result = take_screenshot()
         # speak(result)
         return result
-    
 
     # this command will fetch the current weather information, you can say "weather" to trigger this command
     elif "weather" in command_text:

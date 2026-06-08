@@ -1,42 +1,42 @@
 [
     {
         "role": "you",
-        "content": "send message on whatsapp"
+        "content": "open youtube"
     },
     {
         "role": "jarvis",
-        "content": "Message sent to kirti"
+        "content": "Opening youtube"
     },
     {
         "role": "you",
-        "content": "indore mein hun"
+        "content": "open youtube"
     },
     {
         "role": "jarvis",
-        "content": "I am readily at your service. What can I do for you?"
+        "content": "Opening youtube"
     },
     {
         "role": "you",
-        "content": "check weather"
+        "content": "open insta"
     },
     {
         "role": "jarvis",
-        "content": "Current weather in Bhopal: 32.13\u00b0C, feels like 30.64\u00b0C with few clouds"
+        "content": "Opening insta"
     },
     {
         "role": "you",
-        "content": "weather tell me about"
+        "content": "open"
     },
     {
         "role": "jarvis",
-        "content": "Current weather in Bhopal: 32.13\u00b0C, feels like 30.64\u00b0C with few clouds"
+        "content": null
     },
     {
         "role": "you",
-        "content": "tell me about the news"
+        "content": "prin"
     },
     {
         "role": "jarvis",
-        "content": "News headlines spoken"
+        "content": "I am ready to assist you with your request. What would you like to know?"
     }
 ]

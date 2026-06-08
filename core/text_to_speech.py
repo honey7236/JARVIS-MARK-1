@@ -31,7 +31,8 @@ def speak(text):
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True
+            text=True,
+            creationflags=subprocess.CREATE_NO_WINDOW
         )
 
         # Communicating with Piper

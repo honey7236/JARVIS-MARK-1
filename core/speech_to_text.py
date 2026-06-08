@@ -9,7 +9,7 @@ recognizer.dynamic_energy_threshold = False
 
 def listen():
     with sr.Microphone() as source:
-        print("Listening...")
+        # print("Listening...")
 
         try:
             # ⚡ Faster listening

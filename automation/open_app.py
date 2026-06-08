@@ -1,8 +1,8 @@
-import pyautogui as gui
 import subprocess
 import time
 
 def open_app(text):
+    import pyautogui as gui
     text = text.lower().replace("run", "").strip()
 
     try:

@@ -1,0 +1,333 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary);background:transparent}
+h2.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.root{padding:1rem 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab{padding:6px 14px;font-size:13px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s}
+.tab.active{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent;font-weight:500}
+.tab:hover:not(.active){background:var(--color-background-secondary)}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:10px}
+.card-title{font-size:14px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.card-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.badge{font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);font-weight:400}
+.badge-blue{background:var(--color-background-info);color:var(--color-text-info)}
+.badge-teal{background:#E1F5EE;color:#0F6E56}
+.badge-amber{background:#FAEEDA;color:#854F0B}
+.badge-purple{background:#EEEDFE;color:#534AB7}
+.badge-gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.badge-coral{background:#FAECE7;color:#993C1D}
+@media(prefers-color-scheme:dark){
+  .badge-teal{background:#04342C;color:#9FE1CB}
+  .badge-amber{background:#412402;color:#FAC775}
+  .badge-purple{background:#26215C;color:#AFA9EC}
+  .badge-coral{background:#4A1B0C;color:#F5C4B3}
+}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.flow-wrap{overflow-x:auto;padding-bottom:4px}
+.file-tree{font-size:13px;font-family:var(--font-mono);line-height:2;color:var(--color-text-secondary)}
+.file-tree .dir{color:var(--color-text-primary);font-weight:500}
+.file-tree .file{color:var(--color-text-secondary)}
+.file-tree .comment{color:var(--color-text-tertiary);font-size:11px}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dot-blue{background:#378ADD}
+.dot-teal{background:#1D9E75}
+.dot-amber{background:#BA7517}
+.dot-purple{background:#7F77DD}
+.dot-gray{background:#888780}
+.dot-coral{background:#D85A30}
+.step-list{counter-reset:s}
+.step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--color-background-info);color:var(--color-text-info);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-body{font-size:13px;line-height:1.6;color:var(--color-text-secondary)}
+.step-body strong{color:var(--color-text-primary);font-weight:500}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:14px 0}
+.dep-table{width:100%;font-size:12px;border-collapse:collapse}
+.dep-table th{text-align:left;font-weight:500;font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.dep-table td{padding:7px 8px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);vertical-align:top}
+.dep-table td:first-child{color:var(--color-text-primary);font-weight:500;font-family:var(--font-mono);font-size:12px}
+.dep-table tr:last-child td{border-bottom:none}
+.highlight{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:2px 6px;font-family:var(--font-mono);font-size:12px}
+</style>
+
+<div class="root">
+<h2 class="sr-only">JARVIS-MARK-1 full project blueprint — file structure, module roles, execution flow, and dependencies</h2>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('overview',this)">Overview</button>
+  <button class="tab" onclick="show('files',this)">File structure</button>
+  <button class="tab" onclick="show('modules',this)">Modules</button>
+  <button class="tab" onclick="show('flow',this)">Execution flow</button>
+  <button class="tab" onclick="show('deps',this)">Dependencies</button>
+</div>
+
+<!-- OVERVIEW -->
+<div id="overview" class="panel active">
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span class="dot dot-blue" style="width:10px;height:10px"></span>Entry points</div>
+      <div class="card-sub" style="margin-top:6px">
+        <div class="row"><div class="dot dot-blue"></div><div><span class="highlight">JARVIS.py</span> — CLI / voice loop. The main brain. Boots up speech, memory, and the command processor.</div></div>
+        <div class="row"><div class="dot dot-blue"></div><div><span class="highlight">app.py</span> — GUI launcher. Uses <span class="highlight">eel</span> + Edge browser to show the frontend, then runs JARVIS in a background thread.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot dot-purple" style="width:10px;height:10px"></span>Core layers</div>
+      <div class="card-sub" style="margin-top:6px">
+        <div class="row"><div class="dot dot-purple"></div><div><strong style="color:var(--color-text-primary)">Brain/</strong> — AI command processor (LLM integration)</div></div>
+        <div class="row"><div class="dot dot-teal"></div><div><strong style="color:var(--color-text-primary)">core/</strong> — STT (listen) + TTS (speak)</div></div>
+        <div class="row"><div class="dot dot-amber"></div><div><strong style="color:var(--color-text-primary)">automation/</strong> — system tasks, weather, news, internet</div></div>
+        <div class="row"><div class="dot dot-coral"></div><div><strong style="color:var(--color-text-primary)">memory/</strong> — short-term session + long-term learning</div></div>
+        <div class="row"><div class="dot dot-gray"></div><div><strong style="color:var(--color-text-primary)">frontend/</strong> — HTML/CSS/JS dashboard UI</div></div>
+        <div class="row"><div class="dot dot-gray"></div><div><strong style="color:var(--color-text-primary)">data/</strong> — persistent JSON stores</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">How it works — one-liner</div>
+    <div class="card-sub" style="margin-top:4px;line-height:1.7">
+      JARVIS listens via microphone → transcribes speech with <span class="highlight">speech_recognition</span> → feeds command into <span class="highlight">Brain.py</span> (LLM / rule engine) → runs automation if needed → stores to memory → speaks response via <span class="highlight">pyttsx3</span>. The GUI mirrors all of this via <span class="highlight">eel</span> WebSockets.
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Language breakdown</div>
+      <div class="card-sub" style="margin-top:8px">
+        <div style="margin-bottom:6px;display:flex;align-items:center;gap:8px"><span class="badge badge-blue">Python 91%</span> Core engine, all modules</div>
+        <div style="margin-bottom:6px;display:flex;align-items:center;gap:8px"><span class="badge badge-amber">JS 5%</span> Frontend interactivity (eel bridge)</div>
+        <div style="margin-bottom:6px;display:flex;align-items:center;gap:8px"><span class="badge badge-gray">CSS 2.3%</span> Dashboard styling</div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="badge badge-gray">HTML 1.4%</span> index.html shell</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Key design decisions</div>
+      <div class="card-sub" style="margin-top:6px">
+        <div class="row"><div class="dot dot-teal"></div><div>GUI runs JARVIS in a <strong style="color:var(--color-text-primary)">daemon thread</strong> — crash-safe, non-blocking</div></div>
+        <div class="row"><div class="dot dot-teal"></div><div><strong style="color:var(--color-text-primary)">Short-term memory</strong> is a session list saved to JSON on each turn</div></div>
+        <div class="row"><div class="dot dot-teal"></div><div><strong style="color:var(--color-text-primary)">Long-term learning</strong> updates a profile from command patterns</div></div>
+        <div class="row"><div class="dot dot-teal"></div><div>All modules added to <span class="highlight">sys.path</span> via relative path injection</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FILE STRUCTURE -->
+<div id="files" class="panel">
+  <div class="card">
+    <div class="card-title" style="margin-bottom:10px">Full annotated file tree</div>
+    <div class="file-tree">
+      <div><span class="dir">JARVIS-MARK-1/</span></div>
+      <div style="padding-left:16px">
+        <div>├── <span class="dir">Brain/</span> <span class="comment">— AI/LLM command processing</span></div>
+        <div style="padding-left:20px">
+          <div>│   └── <span class="file">Brain.py</span> <span class="comment">— processcomand(text) → response string</span></div>
+        </div>
+        <div>├── <span class="dir">core/</span> <span class="comment">— Voice I/O primitives</span></div>
+        <div style="padding-left:20px">
+          <div>│   ├── <span class="file">speech_to_text.py</span> <span class="comment">— listen() → text or None</span></div>
+          <div>│   └── <span class="file">text_to_speech.py</span> <span class="comment">— speak(text) → None</span></div>
+        </div>
+        <div>├── <span class="dir">automation/</span> <span class="comment">— System & web tasks</span></div>
+        <div style="padding-left:20px">
+          <div>│   ├── <span class="file">datetimegreet.py</span> <span class="comment">— greet_user() → morning/afternoon/evening</span></div>
+          <div>│   ├── <span class="file">internet_check.py</span> <span class="comment">— internet_status() → dict</span></div>
+          <div>│   ├── <span class="file">system_info.py</span> <span class="comment">— get_system_stats() → CPU/RAM/disk</span></div>
+          <div>│   ├── <span class="file">weather.py</span> <span class="comment">— get_weather() → weather dict</span></div>
+          <div>│   └── <span class="file">news.py</span> <span class="comment">— get_news() → headlines list</span></div>
+        </div>
+        <div>├── <span class="dir">memory/</span> <span class="comment">— Conversation memory</span></div>
+        <div style="padding-left:20px">
+          <div>│   ├── <span class="file">short_term.py</span> <span class="comment">— add_message / save_session / load_session</span></div>
+          <div>│   └── <span class="file">learning.py</span> <span class="comment">— learn_user(command) → updates long-term profile</span></div>
+        </div>
+        <div>├── <span class="dir">frontend/</span> <span class="comment">— GUI served by eel</span></div>
+        <div style="padding-left:20px">
+          <div>│   ├── <span class="file">index.html</span> <span class="comment">— root shell, eel.js injected here</span></div>
+          <div>│   ├── <span class="file">style.css</span> <span class="comment">— dashboard styles</span></div>
+          <div>│   └── <span class="file">main.js</span> <span class="comment">— eel bridge calls, live updates</span></div>
+        </div>
+        <div>├── <span class="dir">data/</span> <span class="comment">— Persistent storage</span></div>
+        <div style="padding-left:20px">
+          <div>│   ├── <span class="file">session.json</span> <span class="comment">— current session conversation log</span></div>
+          <div>│   └── <span class="file">user_profile.json</span> <span class="comment">— long-term learned preferences</span></div>
+        </div>
+        <div>├── <span class="file">JARVIS.py</span> <span class="comment">— CLI entry: voice loop + memory lifecycle</span></div>
+        <div>├── <span class="file">app.py</span> <span class="comment">— GUI entry: eel init + thread spawn + dashboard data</span></div>
+        <div>└── <span class="file">.gitignore</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODULES -->
+<div id="modules" class="panel">
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span class="badge badge-blue" style="margin-right:4px">Brain/</span>Brain.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Central command router. Receives a raw text command and returns a response string.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">processcomand(command)</span><br><br>
+        Likely integrates an LLM API (Gemini / OpenAI) or a rule-based intent classifier. Returns plain text that JARVIS will speak aloud.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-teal" style="margin-right:4px">core/</span>speech_to_text.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Microphone input → text.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">listen()</span> → str | None<br><br>
+        Uses <span class="highlight">speech_recognition</span> (Google STT). Returns None on silence/error so the main loop can safely skip.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-teal" style="margin-right:4px">core/</span>text_to_speech.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Text → spoken audio output.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">speak(text)</span><br><br>
+        Uses <span class="highlight">pyttsx3</span> (offline TTS engine). Configurable voice, rate, and volume. Blocks until audio finishes.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-amber" style="margin-right:4px">automation/</span>datetimegreet.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Time-aware greeting at startup.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">greet_user()</span> → str<br><br>
+        Returns "Good morning / afternoon / evening, sir" based on current system time.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-amber" style="margin-right:4px">automation/</span>weather.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Fetch current weather data.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">get_weather()</span> → dict<br><br>
+        Calls an external weather API (likely OpenWeatherMap). Result is displayed in the GUI dashboard and can be spoken on command.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-amber" style="margin-right:4px">automation/</span>news.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Fetch latest headlines.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">get_news()</span> → list[str]<br><br>
+        Uses a news API or RSS feed. Headlines are shown in the frontend and can be read aloud.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-amber" style="margin-right:4px">automation/</span>system_info.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> System resource monitoring.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">get_system_stats()</span> → dict<br><br>
+        Returns CPU%, RAM%, disk usage via <span class="highlight">psutil</span>. Feeds the live stats panel in the dashboard.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-amber" style="margin-right:4px">automation/</span>internet_check.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Network connectivity status.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">internet_status()</span> → dict<br><br>
+        Pings a known host and returns connection state + latency. Shown in the dashboard header.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-coral" style="margin-right:4px">memory/</span>short_term.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Session conversation log.<br><br>
+        <strong style="color:var(--color-text-primary)">Key functions:</strong> <span class="highlight">add_message(role, text)</span>, <span class="highlight">save_session()</span>, <span class="highlight">load_session()</span><br><br>
+        Keeps a list of {role, text} dicts in memory. Persists to <span class="highlight">data/session.json</span> after every turn.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-coral" style="margin-right:4px">memory/</span>learning.py</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Long-term user profiling.<br><br>
+        <strong style="color:var(--color-text-primary)">Key function:</strong> <span class="highlight">learn_user(command)</span><br><br>
+        Parses commands for patterns (frequent topics, preferred name, common tasks) and updates <span class="highlight">data/user_profile.json</span>.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-gray" style="margin-right:4px">frontend/</span>index.html + JS</div>
+      <div class="card-sub" style="margin-top:8px;line-height:1.7">
+        <strong style="color:var(--color-text-primary)">Role:</strong> Live dashboard rendered by Microsoft Edge via <span class="highlight">eel</span>.<br><br>
+        Shows: internet status, weather, news, system stats. The <span class="highlight">eel</span> WebSocket bridge lets Python push data to JS in real time and vice versa.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXECUTION FLOW -->
+<div id="flow" class="panel">
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px">CLI mode — <span class="highlight">JARVIS.py</span></div>
+    <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Boot</strong> — <span class="highlight">speak("initializing JARVIS…")</span> confirms TTS is alive</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Greet</strong> — <span class="highlight">greet_user()</span> generates time-aware greeting, spoken aloud</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Load session</strong> — <span class="highlight">load_session()</span> restores last conversation from <span class="highlight">data/session.json</span></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Listen</strong> — <span class="highlight">listen()</span> opens mic, waits for speech, returns text. Loops back if None.</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><strong>Log input</strong> — <span class="highlight">add_message("you", command)</span> appends to session</div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><strong>Learn</strong> — <span class="highlight">learn_user(command)</span> updates long-term profile if patterns detected</div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body"><strong>Process</strong> — <span class="highlight">processcomand(command)</span> in Brain.py routes to LLM or automation handler, returns response string</div></div>
+    <div class="step"><div class="step-num">8</div><div class="step-body"><strong>Log output</strong> — <span class="highlight">add_message("jarvis", response)</span> + <span class="highlight">save_session()</span></div></div>
+    <div class="step"><div class="step-num">9</div><div class="step-body"><strong>Exit check</strong> — if response == "exit", <span class="highlight">speak("Shutting down")</span> and break. Otherwise speak the response and loop to step 4.</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px">GUI mode — <span class="highlight">app.py</span></div>
+    <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Path setup</strong> — <span class="highlight">resource_path()</span> resolves frontend folder for both dev and PyInstaller .exe</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><strong>eel init</strong> — <span class="highlight">eel.init("frontend")</span> sets the web root</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Thread spawn</strong> — <span class="highlight">threading.Thread(target=jarvis, daemon=True).start()</span> runs the full voice loop in the background</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Dashboard data</strong> — <span class="highlight">internet_status()</span>, <span class="highlight">get_weather()</span>, <span class="highlight">get_news()</span>, <span class="highlight">get_system_stats()</span> called to pre-populate the UI</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><strong>Launch GUI</strong> — <span class="highlight">eel.start("index.html", mode="edge", host="localhost", port=8000)</span> opens the Edge browser window. This call blocks until the window is closed.</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:8px">Data flow — memory lifecycle</div>
+    <div class="card-sub" style="line-height:1.8">
+      Each conversation turn follows this path through memory:<br>
+      <span class="highlight">listen()</span> → raw text → <span class="highlight">add_message("you", …)</span> → <span class="highlight">learn_user(…)</span> → <span class="highlight">processcomand(…)</span> → <span class="highlight">add_message("jarvis", …)</span> → <span class="highlight">save_session()</span><br><br>
+      Short-term (<span class="highlight">session.json</span>) is reloaded at startup. Long-term (<span class="highlight">user_profile.json</span>) accumulates across sessions and can inform Brain.py's responses.
+    </div>
+  </div>
+</div>
+
+<!-- DEPENDENCIES -->
+<div id="deps" class="panel">
+  <div class="card">
+    <div class="card-title" style="margin-bottom:10px">Python libraries inferred from source</div>
+    <table class="dep-table">
+      <thead><tr><th>Package</th><th>Used in</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>speech_recognition</td><td>core/speech_to_text.py</td><td>Google STT — mic input to text</td></tr>
+        <tr><td>pyttsx3</td><td>core/text_to_speech.py</td><td>Offline TTS engine — speaks responses</td></tr>
+        <tr><td>eel</td><td>app.py</td><td>Python ↔ JS bridge, serves frontend over WebSocket</td></tr>
+        <tr><td>psutil</td><td>automation/system_info.py</td><td>CPU, RAM, disk usage stats</td></tr>
+        <tr><td>requests</td><td>automation/weather.py, news.py, internet_check.py</td><td>HTTP calls to external APIs</td></tr>
+        <tr><td>threading</td><td>app.py</td><td>Runs JARVIS voice loop as daemon thread</td></tr>
+        <tr><td>json</td><td>memory/short_term.py, learning.py</td><td>Session and profile persistence</td></tr>
+        <tr><td>datetime</td><td>automation/datetimegreet.py</td><td>Time-of-day greeting logic</td></tr>
+        <tr><td>openai / google-generativeai</td><td>Brain/Brain.py</td><td>LLM backend (Gemini or GPT) — likely</td></tr>
+        <tr><td>pyaudio</td><td>core/speech_to_text.py</td><td>Mic hardware access (required by speech_recognition)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card" style="margin-top:10px">
+    <div class="card-title">Recommended <span class="highlight">requirements.txt</span></div>
+    <div class="card-sub" style="font-family:var(--font-mono);font-size:12px;line-height:2;margin-top:8px">
+      SpeechRecognition<br>
+      pyttsx3<br>
+      eel<br>
+      psutil<br>
+      requests<br>
+      pyaudio<br>
+      google-generativeai &nbsp;<span style="font-family:var(--font-sans);color:var(--color-text-tertiary)"># or openai, depending on Brain.py</span>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>

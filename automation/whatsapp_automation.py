@@ -4,12 +4,12 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from data.contact_data import contacts
 import webbrowser
-import pyautogui
 import time
 from urllib.parse import quote
 
 
 def send_whatsapp_instant(receiver, message):
+    import pyautogui
     try:
         # Check name or number
         phone = contacts.get(receiver.lower(), receiver)

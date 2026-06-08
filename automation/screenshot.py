@@ -1,8 +1,8 @@
-import pyautogui
 import time
 import os
 
 def take_screenshot():
+    import pyautogui
     try:
         time.sleep(1)
 
